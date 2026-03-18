@@ -64,7 +64,7 @@ def main():
     config.initialize_default_config()
 
     # 读取输出目录配置
-    output_dir = config.get("output_dir")
+    output_dir = config.load_system_config().get("output_dir")
     if output_dir:
         output_dir = Path(output_dir).expanduser()
     else:

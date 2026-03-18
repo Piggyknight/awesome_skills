@@ -15,6 +15,7 @@ from .indent_analyzer import IndentAnalyzer
 from .task_parser import TaskParser
 from .data_normalizer import DataNormalizer
 from .types import Task, DailyReport
+from .date_utils import parse_date as parse_date_str
 
 
 def parse_daily_report(markdown_text: str, date: Optional[str] = None) -> DailyReport:
@@ -54,6 +55,10 @@ def parse_daily_report(markdown_text: str, date: Optional[str] = None) -> DailyR
     """
     if date is None:
         date = datetime.now().strftime("%Y%m%d")
+    else:
+        # 统一转换为 YYYYMMDD 格式
+        parsed = parse_date_str(date)
+        date = parsed.strftime("%Y%m%d")
     
     # 初始化工具
     indent_analyzer = IndentAnalyzer()
@@ -148,8 +153,8 @@ def parse_daily_report(markdown_text: str, date: Optional[str] = None) -> DailyR
         
         # 缩进级别0，可能是任务标题
         if indent == 0 and current_member and current_section:
-            # 检查是否是标题行（跳过markdown标题）
-            if stripped_line.startswith('#'):
+            # 检查是否是标题行（跳过markdown标题，但保留 #123 这种 issue 编号）
+            if stripped_line.startswith('#') and re.match(r'^#\s+\S', stripped_line):
                 idx += 1
                 continue
             
