@@ -225,9 +225,22 @@ DJZ:
 位置: `data/config/system_config.json`
 
 包含:
+- `output_dir`: 自定义输出目录（可选，默认使用 data/ 目录）
 - LLM模型配置
 - 定时任务配置
 - 邮件配置
+
+**配置示例**:
+```json
+{
+  "output_dir": "~/Documents/Report",
+  "llm": {
+    "model": "zai/glm-5"
+  }
+}
+```
+
+> 💡 **说明**：如果不设置 `output_dir` 或设为 `null`，将使用默认的 `../weekly-report-system/data/` 目录
 
 ---
 

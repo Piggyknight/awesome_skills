@@ -321,9 +321,23 @@ Git提交
 
 位置: `data/config/system_config.json`
 
+包含:
+- `output_dir`: 自定义输出目录（可选，默认使用 data/ 目录）
 - LLM模型: zai/glm-5
 - 定时任务: 每周六20:00
 - 邮件重试: 3次
+
+**配置示例**:
+```json
+{
+  "output_dir": "~/Documents/Report",
+  "llm": {
+    "model": "zai/glm-5"
+  }
+}
+```
+
+> 💡 **说明**：如果不设置 `output_dir` 或设为 `null`，将使用默认的 `../weekly-report-system/data/` 目录
 
 ---
 

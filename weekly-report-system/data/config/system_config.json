@@ -1,5 +1,6 @@
 {
   "version": "1.0",
+  "output_dir": null,
   "llm": {
     "model": "zai/glm-5",
     "max_tokens": 2000,
