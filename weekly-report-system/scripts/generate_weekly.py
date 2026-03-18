@@ -52,6 +52,11 @@ def main():
         action="store_true",
         help="不使用LLM润色"
     )
+    parser.add_argument(
+        "--no-git",
+        action="store_true",
+        help="不提交到Git"
+    )
 
     args = parser.parse_args()
 
@@ -131,9 +136,12 @@ def main():
                     print(f"  - {error}")
 
     # Git提交
-    print("\n提交到Git...")
-    git_helper.commit(f"生成周报 {args.week}")
-    print("✅ 已提交到Git")
+    if not args.no_git:
+        print("\n提交到Git...")
+        git_helper.commit(f"生成周报 {args.week}")
+        print("✅ 已提交到Git")
+    else:
+        print("\n跳过Git提交")
 
     print(f"\n🎉 周报生成完成！")
 
