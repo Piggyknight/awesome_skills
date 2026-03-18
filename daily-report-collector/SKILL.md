@@ -148,7 +148,9 @@ DJZ:
 
 文件命名: `soc_daily_YYYYMMDD.md`
 
-保存位置: `~/Documents/Report/daily/`
+保存位置: `../weekly-report-system/data/daily/`（默认，相对于技能目录）
+
+> 💡 **可配置**：可在 `weekly-report-system/data/config/system_config.json` 中设置 `output_dir` 来自定义输出路径
 
 ### 5. Git提交
 
@@ -163,7 +165,7 @@ DJZ:
 ```
 ✅ 日报收集成功
 
-📄 文件: ~/Documents/Report/daily/soc_daily_20260307.md
+📄 文件: ../weekly-report-system/data/daily/soc_daily_20260307.md
 👥 成员数: 10
 📊 任务统计:
   - HLQ: 3项今日, 1项明日
@@ -231,9 +233,9 @@ DJZ:
 
 ## 项目位置
 
-**周报系统**: `~/Documents/weekly-report-system`
+**周报系统**: `../weekly-report-system/`（相对于技能目录）
 
-**日报存储**: `data/daily/`
+**日报存储**: `../weekly-report-system/data/daily/`（默认）
 
 **使用文档**: `README.md`
 
@@ -288,7 +290,7 @@ DJZ:
 ```
 ✅ 日报收集成功
 
-📄 文件: ~/Documents/Report/daily/soc_daily_20260307.md
+📄 文件: ../weekly-report-system/data/daily/soc_daily_20260307.md
 👥 成员数: 2
 📊 任务统计:
   - HLQ: 2项今日, 1项明日

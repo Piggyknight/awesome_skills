@@ -1,6 +1,5 @@
 {
   "version": "1.0",
-  "output_dir": "~/Documents/Report",
   "llm": {
     "model": "zai/glm-5",
     "max_tokens": 2000,
