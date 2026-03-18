@@ -148,7 +148,7 @@ DJZ:
 
 文件命名: `soc_daily_YYYYMMDD.md`
 
-保存位置: `~/Documents/weekly-report-system/data/daily/`
+保存位置: `~/Documents/tools/awesome_skills/weekly-report-system/data/daily/`
 
 ### 5. Git提交
 

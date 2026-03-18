@@ -329,7 +329,7 @@ Git提交
 
 ## 项目位置
 
-**周报系统**: `~/Documents/weekly-report-system`
+**周报系统**: `~/Documents/tools/awesome_skills/weekly-report-system`
 
 **日报存储**: `data/daily/`
 
