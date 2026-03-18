@@ -1,0 +1,69 @@
+{
+  "version": "1.0",
+  "members": {
+    "DCL": {
+      "id": "DCL",
+      "name": "",
+      "email": "daicl@wooduan.com",
+      "active": true
+    },
+    "HLQ": {
+      "id": "HLQ",
+      "name": "",
+      "email": "hlqiang@wooduan.com",
+      "active": true
+    },
+    "HWL": {
+      "id": "HWL",
+      "name": "",
+      "email": "hwanlu@wooduan.com",
+      "active": true
+    },
+    "PGH": {
+      "id": "PGH",
+      "name": "",
+      "email": "pguangh@wooduan.com",
+      "active": true
+    },
+    "ALB": {
+      "id": "ALB",
+      "name": "",
+      "email": "alb@wooduan.com",
+      "active": true
+    },
+    "KRP": {
+      "id": "KRP",
+      "name": "",
+      "email": "krongp@wooduan.com",
+      "active": true
+    },
+    "YY": {
+      "id": "YY",
+      "name": "",
+      "email": "yyang@wooduan.com",
+      "active": true
+    },
+    "ZSH": {
+      "id": "ZSH",
+      "name": "",
+      "email": "zsh@wooduan.com",
+      "active": true
+    },
+    "XZY": {
+      "id": "XZY",
+      "name": "",
+      "email": "xzyong@wooduan.com",
+      "active": true
+    },
+    "DJZ": {
+      "id": "DJZ",
+      "name": "",
+      "email": "djz@wooduan.com",
+      "active": true
+    }
+  },
+  "admin": {
+    "name": "Kai",
+    "email": "wangk@wooduan.com"
+  }
+}
