@@ -1,0 +1,41 @@
+// 文件：Source/Programs/<MODULE>Tests/<MODULE>Tests.Target.cs
+// 描述：<MODULE> 测试目标配置
+// 类型：TestTargetRules
+
+using UnrealBuildTool;
+
+[SupportedPlatforms(UnrealPlatformClass.All)]
+public class <MODULE>TestsTarget : TestTargetRules
+{
+    public <MODULE>TestsTarget(TargetInfo Target) : base(Target)
+    {
+        // ====== 隔离策略（减少外部依赖）======
+        
+        // 使用文件系统 Stub（避免真实文件系统依赖）
+        bUsePlatformFileStub = true;
+        
+        // Mock 引擎默认值（减少引擎初始化）
+        bMockEngineDefaults = true;
+
+        // ====== 可选配置 ======
+        
+        // 是否编译 Editor 数据（仅在需要 Editor 功能时启用）
+        // bBuildWithEditorOnlyData = true;
+        
+        // 是否编译针对 Editor（仅在需要 Editor 类时启用）
+        // bCompileAgainstEditor = true;
+
+        // ====== 构建配置 ======
+        
+        // 默认构建配置
+        DefaultBuildSettings = BuildSettingsVersion.V5;
+        
+        // 包含的插件（如有需要）
+        // ExtraModuleNames.AddRange(new string[] { "PluginName" });
+
+        // ====== 输出配置 ======
+        
+        // 输出目录（默认即可）
+        // OutputDirectory = Path.Combine(ProjectFile.Directory.FullName, "Binaries", "Linux");
+    }
+}

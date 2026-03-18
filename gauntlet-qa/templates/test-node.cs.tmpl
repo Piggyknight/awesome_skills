@@ -1,0 +1,129 @@
+// 文件：Build/Scripts/<PROJECT>.Automation/Tests/<FEATURE>TestNode.cs
+// 描述：<FEATURE> 整合测试节点（会话编排）
+// 类型：UnrealTestNode
+
+using Gauntlet;
+using System.Collections;
+
+namespace <PROJECT>.Automation
+{
+    /// <summary>
+    /// <FEATURE> 整合测试节点
+    /// 负责编排 Unreal 会话（多进程）
+    /// </summary>
+    public class <FEATURE>TestNode : UnrealTestNode
+    {
+        // ====== 配置常量 ======
+        private const int ClientCount = 2;
+        private const int ServerCount = 1;
+        private const int MaxDuration = 600; // 10 分钟
+        private const string TestMap = "/Game/Maps/TestMap";
+        private const string TestControllerName = "<FEATURE>TestController";
+
+        /// <summary>
+        /// 配置测试会话
+        /// </summary>
+        public override IEnumerator<float> GetConfiguration()
+        {
+            // ====== 配置客户端角色 ======
+            ConfigRole ClientRole = new ConfigRole();
+            ClientRole.Type = RoleType.Client;
+            ClientRole.Count = ClientCount;
+            
+            // 客户端额外参数
+            ClientRole.Parameters.Add("-log");
+            ClientRole.Parameters.Add($"-Map={TestMap}");
+            
+            // ====== 配置服务器角色 ======
+            ConfigRole ServerRole = new ConfigRole();
+            ServerRole.Type = RoleType.Server;
+            ServerRole.Count = ServerCount;
+            
+            // 服务器额外参数
+            ServerRole.Parameters.Add("-log");
+            ServerRole.Parameters.Add("-multiprocess");
+            
+            // ====== 添加角色到配置 ======
+            Configuration.Roles.Add(ClientRole);
+            Configuration.Roles.Add(ServerRole);
+            
+            // ====== 会话配置 ======
+            Configuration.MaxDuration = MaxDuration;
+            Configuration.TestController = TestControllerName;
+            
+            // ====== CI 友好参数 ======
+            Configuration.Parameters.Add("-nullrhi");      // 无渲染（Headless）
+            Configuration.Parameters.Add("-unattended");   // 无人值守
+            Configuration.Parameters.Add("-nopause");      // 不暂停
+            Configuration.Parameters.Add("-log");          // 启用日志
+            
+            // ====== 可选：多平台支持 ======
+            // Configuration.Platform = UnrealTargetPlatform.Linux;
+            
+            yield return 0;
+        }
+        
+        /// <summary>
+        /// 测试主循环
+        /// </summary>
+        public override IEnumerator<float> TickTestNode()
+        {
+            // 初始化完成标志
+            bool bAllRolesInitialized = false;
+            
+            // 测试主循环
+            while (!IsComplete)
+            {
+                // 检查所有角色是否初始化完成
+                if (!bAllRolesInitialized)
+                {
+                    bAllRolesInitialized = CheckAllRolesInitialized();
+                    if (bAllRolesInitialized)
+                    {
+                        Log.Info("All roles initialized, test running...");
+                    }
+                }
+                
+                // 检查测试状态
+                CheckTestStatus();
+                
+                // 每秒检查一次
+                yield return 1.0f;
+            }
+        }
+        
+        /// <summary>
+        /// 检查所有角色是否初始化
+        /// </summary>
+        private bool CheckAllRolesInitialized()
+        {
+            foreach (var Role in Configuration.Roles)
+            {
+                if (!Role.IsRunning)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        /// <summary>
+        /// 检查测试状态
+        /// </summary>
+        private void CheckTestStatus()
+        {
+            // 检查所有角色是否完成
+            foreach (var Role in Configuration.Roles)
+            {
+                if (!Role.IsComplete)
+                {
+                    return;
+                }
+            }
+            
+            // 所有角色完成，标记测试完成
+            IsComplete = true;
+            Log.Info("All roles completed, test finished.");
+        }
+    }
+}

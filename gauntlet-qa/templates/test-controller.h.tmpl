@@ -1,0 +1,82 @@
+// 文件：Plugins/<TEST_PLUGIN>/Source/<FEATURE>TestController/Public/<FEATURE>TestController.h
+// 描述：<FEATURE> 测试控制器头文件
+// 类型：UGauntletTestController
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GauntletTestController.h"
+#include "<FEATURE>TestController.generated.h"
+
+/**
+ * <FEATURE> 测试控制器
+ * 负责运行时测试执行和验证
+ */
+UCLASS()
+class U<FEATURE>TestController : public UGauntletTestController
+{
+    GENERATED_BODY()
+
+public:
+    U<FEATURE>TestController();
+
+    // ====== 生命周期回调 ======
+    virtual void OnInit() override;
+    virtual void OnTick(float DeltaTime) override;
+    virtual void OnPostMapChange(UWorld* World) override;
+    virtual void OnPreMapChange(FName MapName) override;
+    virtual void OnStateChange(FName NewState) override;
+
+protected:
+    // ====== 测试状态机 ======
+    enum class ETestState : uint8
+    {
+        Init,       // 初始化
+        Loading,    // 加载中
+        Running,    // 执行中
+        Verifying,  // 验证中
+        Complete    // 完成
+    };
+
+    // ====== 状态管理 ======
+    void SetTestState(ETestState NewState);
+    ETestState GetCurrentState() const { return CurrentState; }
+    
+    // ====== 状态处理 ======
+    void TickInit();
+    void TickLoading();
+    void TickRunning();
+    void TickVerifying();
+    
+    // ====== 测试步骤 ======
+    void ExecuteTestStep(int32 StepIndex);
+    bool CheckStepComplete(int32 StepIndex) const;
+    
+    // ====== 验证方法 ======
+    bool VerifyTestResults();
+    bool AllClientsReady();
+    bool TestStepsComplete();
+    bool CheckDataConsistency();
+
+    // ====== 辅助方法 ======
+    void LogTestMessage(const FString& Message);
+    void LogTestWarning(const FString& Message);
+    void LogTestError(const FString& Message);
+
+private:
+    // ====== 状态变量 ======
+    ETestState CurrentState;
+    float TestTimer;
+    int32 CurrentStep;
+    int32 TotalSteps;
+    bool bTestPassed;
+    
+    // ====== 配置 ======
+    FString TestMapPath;
+    float StepTimeout;
+    float MaxTestDuration;
+    
+    // ====== 测试数据 ======
+    TArray<FString> TestSteps;
+    TMap<FString, FString> TestData;
+};

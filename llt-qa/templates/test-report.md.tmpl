@@ -1,0 +1,61 @@
+# LLT 测试报告 - <TASK_ID>
+
+> 测试时间：<TIMESTAMP>
+> 测试人员：LLT QA Agent
+> 平台：Linux Ubuntu 24
+
+## 测试摘要
+
+| 指标 | 值 |
+|------|---|
+| 总用例 | <TOTAL_TESTS> |
+| 通过 | <PASSED_TESTS> |
+| 失败 | <FAILED_TESTS> |
+| 跳过 | <SKIPPED_TESTS> |
+| 耗时 | <DURATION>s |
+| 覆盖率 | <COVERAGE>% |
+
+## 测试环境
+
+| 配置 | 值 |
+|------|---|
+| 目标平台 | Linux |
+| 构建配置 | Development |
+| 测试框架 | Catch2 |
+| 依赖模块 | <DEPENDENCIES> |
+
+## 测试用例详情
+
+| 用例名称 | 状态 | 耗时 | 标签 |
+|---------|------|------|------|
+<TEST_CASES>
+
+## 构建信息
+
+```bash
+# 构建命令
+./Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool \
+    <MODULE>TestsTarget Development Linux
+
+# 构建状态
+✅ 成功
+```
+
+## 运行信息
+
+```bash
+# 运行命令
+./<MODULE>Tests --log --timeout=30 -r junit -o report.xml
+
+# 退出码
+<EXIT_CODE>
+```
+
+## 产物文件
+
+- JUnit XML 报告: `<REPORT_PATH>/report.xml`
+- 日志文件: `<LOG_PATH>/test.log`
+
+## 结果: <RESULT_STATUS>
+
+<RESULT_MESSAGE>

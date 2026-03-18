@@ -1,0 +1,70 @@
+# Gauntlet 测试报告 - <TASK_ID>
+
+> 测试时间：<TIMESTAMP>
+> 测试人员：Gauntlet QA Agent
+> 平台：Linux Ubuntu 24
+
+## 会话配置
+
+| 配置 | 值 |
+|------|---|
+| 客户端数 | <CLIENT_COUNT> |
+| 服务器数 | <SERVER_COUNT> |
+| 平台 | Linux |
+| 构建类型 | <BUILD_TYPE> |
+| 超时 | <MAX_DURATION>s |
+| 渲染模式 | Headless (-nullrhi) |
+
+## 测试场景
+
+<TEST_SCENARIOS>
+
+## 测试摘要
+
+| 指标 | 值 |
+|------|---|
+| 总场景 | <TOTAL_SCENARIOS> |
+| 通过 | <PASSED_SCENARIOS> |
+| 失败 | <FAILED_SCENARIOS> |
+| 跳过 | <SKIPPED_SCENARIOS> |
+| 耗时 | <DURATION>s |
+
+## 测试步骤详情
+
+| 步骤 | 状态 | 耗时 | 备注 |
+|------|------|------|------|
+<TEST_STEPS>
+
+## 运行信息
+
+```bash
+# 运行命令
+./Engine/Build/BatchFiles/Linux/RunUAT.sh RunUnreal \
+    -project="<PROJECT_PATH>" \
+    -scriptdir="<SCRIPT_DIR>" \
+    -platform=Linux \
+    -configuration=Development \
+    -build=editor \
+    -nullrhi -unattended -nopause \
+    -test="<TEST_NAME>(JUnitReportPath=<REPORT_PATH>)"
+
+# 退出码
+<EXIT_CODE>
+```
+
+## 产物文件
+
+- JUnit XML 报告: `<REPORT_PATH>/junit.xml`
+- 日志目录: `Saved/Logs/`
+- 截图目录: `Saved/Screenshots/`
+- 自定义报告: `<REPORT_PATH>/`
+
+## 日志摘要
+
+```
+<LOG_SUMMARY>
+```
+
+## 结果: <RESULT_STATUS>
+
+<RESULT_MESSAGE>

@@ -1,0 +1,272 @@
+// 文件：Plugins/<TEST_PLUGIN>/Source/<FEATURE>TestController/Private/<FEATURE>TestController.cpp
+// 描述：<FEATURE> 测试控制器实现
+// 类型：UGauntletTestController
+
+#include "<FEATURE>TestController.h"
+#include "Logging/LogMacros.h"
+#include "Engine/World.h"
+
+// ====== 日志分类 ======
+DEFINE_LOG_CATEGORY_STATIC(LogGauntletTest, Log, All);
+
+// ====== 构造函数 ======
+U<FEATURE>TestController::U<FEATURE>TestController()
+    : CurrentState(ETestState::Init)
+    , TestTimer(0.0f)
+    , CurrentStep(0)
+    , TotalSteps(0)
+    , bTestPassed(false)
+    , TestMapPath(TEXT("/Game/Maps/TestMap"))
+    , StepTimeout(30.0f)
+    , MaxTestDuration(600.0f)
+{
+}
+
+// ====== 生命周期回调 ======
+
+void U<FEATURE>TestController::OnInit()
+{
+    Super::OnInit();
+    
+    LogTestMessage(TEXT("Test Controller Init"));
+    
+    // 初始化测试步骤
+    TestSteps.Add(TEXT("Initialize"));
+    TestSteps.Add(TEXT("Load Map"));
+    TestSteps.Add(TEXT("Execute Test"));
+    TestSteps.Add(TEXT("Verify Results"));
+    TotalSteps = TestSteps.Num();
+    
+    // 设置初始状态
+    SetTestState(ETestState::Loading);
+    
+    // 加载测试地图
+    ServerTravel(TestMapPath);
+}
+
+void U<FEATURE>TestController::OnTick(float DeltaTime)
+{
+    Super::OnTick(DeltaTime);
+    
+    // 更新计时器
+    TestTimer += DeltaTime;
+    
+    // 检查最大时长
+    if (TestTimer > MaxTestDuration)
+    {
+        LogTestError(TEXT("Test exceeded maximum duration"));
+        EndTest(1); // 失败
+        return;
+    }
+    
+    // 状态机驱动测试
+    switch (CurrentState)
+    {
+        case ETestState::Init:
+            TickInit();
+            break;
+            
+        case ETestState::Loading:
+            TickLoading();
+            break;
+            
+        case ETestState::Running:
+            TickRunning();
+            break;
+            
+        case ETestState::Verifying:
+            TickVerifying();
+            break;
+            
+        case ETestState::Complete:
+            // 已完成，不再处理
+            break;
+    }
+    
+    // 心跳（防止超时误判）
+    MarkHeartbeatActive();
+}
+
+void U<FEATURE>TestController::OnPostMapChange(UWorld* World)
+{
+    Super::OnPostMapChange(World);
+    
+    if (World)
+    {
+        LogTestMessage(FString::Printf(TEXT("Map Loaded: %s"), *World->GetName()));
+    }
+    
+    // 地图加载完成，进入执行阶段
+    SetTestState(ETestState::Running);
+    CurrentStep = 1; // 开始执行测试步骤
+}
+
+void U<FEATURE>TestController::OnPreMapChange(FName MapName)
+{
+    Super::OnPreMapChange(MapName);
+    
+    LogTestMessage(FString::Printf(TEXT("Map Changing: %s"), *MapName.ToString()));
+}
+
+void U<FEATURE>TestController::OnStateChange(FName NewState)
+{
+    LogTestMessage(FString::Printf(TEXT("State Changed: %s"), *NewState.ToString()));
+}
+
+// ====== 状态管理 ======
+
+void U<FEATURE>TestController::SetTestState(ETestState NewState)
+{
+    if (CurrentState != NewState)
+    {
+        ETestState OldState = CurrentState;
+        CurrentState = NewState;
+        
+        LogTestMessage(FString::Printf(
+            TEXT("Test State: %d -> %d"),
+            (int32)OldState,
+            (int32)NewState
+        ));
+    }
+}
+
+// ====== 状态处理 ======
+
+void U<FEATURE>TestController::TickInit()
+{
+    // 初始化阶段，等待资源加载
+    SetTestState(ETestState::Loading);
+}
+
+void U<FEATURE>TestController::TickLoading()
+{
+    // 等待地图加载
+    // OnPostMapChange 会切换到 Running 状态
+}
+
+void U<FEATURE>TestController::TickRunning()
+{
+    // 执行当前测试步骤
+    ExecuteTestStep(CurrentStep);
+    
+    // 检查步骤是否完成
+    if (CheckStepComplete(CurrentStep))
+    {
+        CurrentStep++;
+        
+        if (CurrentStep >= TotalSteps)
+        {
+            // 所有步骤完成，进入验证阶段
+            SetTestState(ETestState::Verifying);
+        }
+    }
+}
+
+void U<FEATURE>TestController::TickVerifying()
+{
+    // 验证测试结果
+    bTestPassed = VerifyTestResults();
+    
+    // 结束测试
+    SetTestState(ETestState::Complete);
+    
+    if (bTestPassed)
+    {
+        LogTestMessage(TEXT("Test PASSED"));
+        EndTest(0); // 通过
+    }
+    else
+    {
+        LogTestError(TEXT("Test FAILED"));
+        EndTest(1); // 失败
+    }
+}
+
+// ====== 测试步骤 ======
+
+void U<FEATURE>TestController::ExecuteTestStep(int32 StepIndex)
+{
+    if (StepIndex < 0 || StepIndex >= TotalSteps)
+    {
+        return;
+    }
+    
+    // 根据步骤索引执行相应逻辑
+    switch (StepIndex)
+    {
+        case 0:
+            // 初始化步骤
+            break;
+            
+        case 1:
+            // 地图加载步骤
+            break;
+            
+        case 2:
+            // 执行测试步骤
+            // 在这里实现具体的测试逻辑
+            break;
+            
+        case 3:
+            // 验证结果步骤
+            break;
+    }
+}
+
+bool U<FEATURE>TestController::CheckStepComplete(int32 StepIndex) const
+{
+    // 根据步骤索引检查是否完成
+    // 默认实现：等待一定时间
+    return TestTimer > (StepIndex * 10.0f);
+}
+
+// ====== 验证方法 ======
+
+bool U<FEATURE>TestController::VerifyTestResults()
+{
+    // 综合验证
+    bool bAllPassed = true;
+    
+    bAllPassed &= AllClientsReady();
+    bAllPassed &= TestStepsComplete();
+    bAllPassed &= CheckDataConsistency();
+    
+    return bAllPassed;
+}
+
+bool U<FEATURE>TestController::AllClientsReady()
+{
+    // 检查所有客户端是否就绪
+    // 实现具体的客户端检查逻辑
+    return true;
+}
+
+bool U<FEATURE>TestController::TestStepsComplete()
+{
+    // 检查所有测试步骤是否完成
+    return CurrentStep >= TotalSteps;
+}
+
+bool U<FEATURE>TestController::CheckDataConsistency()
+{
+    // 检查数据一致性
+    // 实现具体的数据验证逻辑
+    return true;
+}
+
+// ====== 辅助方法 ======
+
+void U<FEATURE>TestController::LogTestMessage(const FString& Message)
+{
+    UE_LOG(LogGauntletTest, Log, TEXT("%s"), *Message);
+}
+
+void U<FEATURE>TestController::LogTestWarning(const FString& Message)
+{
+    UE_LOG(LogGauntletTest, Warning, TEXT("%s"), *Message);
+}
+
+void U<FEATURE>TestController::LogTestError(const FString& Message)
+{
+    UE_LOG(LogGauntletTest, Error, TEXT("%s"), *Message);
+}

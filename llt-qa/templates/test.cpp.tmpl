@@ -1,0 +1,105 @@
+// 文件：Source/Programs/<MODULE>Tests/Private/<NAME>Test.cpp
+// 描述：<MODULE> 模块的 <NAME> 单元测试
+// 框架：Catch2 (UE Low-Level Tests)
+
+#include "CoreMinimal.h"
+#include "TestHarness.h"
+
+// ============================================
+// <NAME> 单元测试
+// ============================================
+
+// ====== TDD 风格测试 ======
+
+TEST_CASE("<MODULE>::<CLASS>::<METHOD> 基本行为", "[unit][fast]")
+{
+    SECTION("场景1：正常输入")
+    {
+        // Arrange - 准备
+        <INPUT_TYPE> Input = <DEFAULT_VALUE>;
+        <EXPECTED_TYPE> Expected = <EXPECTED_VALUE>;
+        
+        // Act - 执行
+        <RESULT_TYPE> Result = <FUNCTION>(Input);
+        
+        // Assert - 断言
+        REQUIRE(Result == Expected);
+    }
+    
+    SECTION("场景2：边界值 - 最小值")
+    {
+        CHECK(<FUNCTION>(0) == 0);
+    }
+    
+    SECTION("场景3：边界值 - 最大值")
+    {
+        CHECK(<FUNCTION>(MAX_VALUE) >= 0);
+    }
+    
+    SECTION("场景4：无效输入")
+    {
+        REQUIRE_THROWS(<FUNCTION>(INVALID_VALUE));
+    }
+}
+
+// ====== BDD 风格测试（可选）======
+
+SCENARIO("<业务场景>流程验证", "[integration][slow]")
+{
+    GIVEN("初始状态")
+    {
+        // 初始化测试环境
+        <CONTEXT> Context;
+        Context.Initialize();
+        
+        WHEN("执行操作 A")
+        {
+            Context.PerformActionA();
+            
+            THEN("状态变为 A")
+            {
+                REQUIRE(Context.GetState() == EState::A);
+            }
+        }
+        
+        WHEN("执行操作 B")
+        {
+            Context.PerformActionB();
+            
+            THEN("状态变为 B")
+            {
+                REQUIRE(Context.GetState() == EState::B);
+            }
+        }
+    }
+}
+
+// ====== 分组测试（UE 扩展）======
+
+GROUP_TEST_CASE("<MODULE>::<FEATURE> 组测试", "[group][feature]")
+{
+    // 组级生命周期在 GROUP_BEFORE_ALL / GROUP_AFTER_ALL 中处理
+}
+
+// 组级生命周期
+GROUP_BEFORE_ALL()
+{
+    // 组测试开始前执行一次
+    UE_LOG(LogTemp, Log, TEXT("Group tests starting"));
+}
+
+GROUP_AFTER_ALL()
+{
+    // 组测试结束后执行一次
+    UE_LOG(LogTemp, Log, TEXT("Group tests completed"));
+}
+
+GROUP_BEFORE_EACH()
+{
+    // 每个测试前执行
+}
+
+GROUP_AFTER_EACH()
+{
+    // 每个测试后执行
+}

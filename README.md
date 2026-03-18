@@ -2,41 +2,54 @@
 
 内部共享的 OpenClaw 技能集合。
 
-## 技能列表
+## 开发工作流
 
-### daily-report-collector
+| 技能 | 用途 |
+|------|------|
+| project-manager | 项目管理、需求拆分、任务分配、进度统计 |
+| architect | 系统架构设计、模块划分、通信协议定义 |
+| git | 版本控制、代码备份和同步 |
 
-日报收集技能，用于收集和解析 Markdown 格式的团队日报。
+## 开发者
 
-**功能：**
-- 解析 Markdown 格式日报
-- 提取成员任务信息
-- 保存为标准格式 `soc_daily_YYYYMMDD.md`
-- Git 自动提交
+| 技能 | 用途 |
+|------|------|
+| developer | 通用开发者，根据架构文档实现功能代码 |
+| backend-developer | Python 后端开发，FastAPI/Flask、RESTful API |
+| frontend-developer | Web 前端开发，React/TypeScript、Tailwind CSS |
+| unreal-developer | Unreal Engine C++ 开发，UE5 代码规范 |
 
-### weekly-report-generator
+## 测试
 
-周报生成技能，用于自动生成团队周报和个人周报。
+| 技能 | 用途 |
+|------|------|
+| qa | 测试专家，单元测试 + 冒烟测试 |
+| llt-qa | UE5 单元测试，Catch2 框架，CI 友好 |
+| gauntlet-qa | UE5 整合测试，Gauntlet Framework，端到端验证 |
 
-**功能：**
-- 读取一周的日报数据
-- 任务去重
-- LLM 润色
-- 生成团队汇总周报和个人周报
-- 邮件发送
+## 调试
+
+| 技能 | 用途 |
+|------|------|
+| debug | 调试专家，嵌入调试日志，问题定位 |
+
+## 报告
+
+| 技能 | 用途 |
+|------|------|
+| daily-report-collector | 日报收集，解析 Markdown 格式团队日报 |
+| weekly-report-generator | 周报生成，任务去重 + LLM 润色 + 邮件发送 |
 
 ## 安装方法
 
 将技能目录复制到 OpenClaw 的 skills 目录：
 
 ```bash
-cp -r daily-report-collector ~/.openclaw/skills/
-cp -r weekly-report-generator ~/.openclaw/skills/
+cp -r * ~/.openclaw/skills/
 ```
 
-或使用软链接：
+或使用软链接（便于 git pull 更新）：
 
 ```bash
-ln -s $(pwd)/daily-report-collector ~/.openclaw/skills/
-ln -s $(pwd)/weekly-report-generator ~/.openclaw/skills/
+for skill in */; do ln -s $(pwd)/$skill ~/.openclaw/skills/; done
 ```

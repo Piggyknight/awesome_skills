@@ -1,0 +1,59 @@
+// 文件：Source/Programs/<MODULE>Tests/<MODULE>Tests.Build.cs
+// 描述：<MODULE> 测试模块的构建配置
+// 类型：TestModuleRules
+
+using UnrealBuildTool;
+
+public class <MODULE>Tests : TestModuleRules
+{
+    static <MODULE>Tests()
+    {
+        if (!InTestMode) return;
+
+        // 测试元数据
+        TestMetadata = new Metadata();
+        TestMetadata.TestName = "<MODULE>";
+        TestMetadata.TestShortName = "<MODULE> Tests";
+        TestMetadata.UsesCatch2 = true;
+        
+        // 支持的平台
+        TestMetadata.SupportedPlatforms.Clear();
+        TestMetadata.SupportedPlatforms.Add(UnrealTargetPlatform.Linux);
+        // 如需支持其他平台：
+        // TestMetadata.SupportedPlatforms.Add(UnrealTargetPlatform.Win64);
+    }
+
+    public <MODULE>Tests(ReadOnlyTargetRules Target) : base(Target)
+    {
+        // 禁用优化（便于调试）
+        OptimizeCode = CodeOptimization.Never;
+
+        // 依赖模块（最小化原则）
+        PrivateDependencyModuleNames.AddRange(new string[]
+        {
+            "Core",
+            // 纯逻辑测试尽量只依赖 Core
+            // 需要时添加：
+            // "CoreUObject",
+            // "Engine",
+        });
+
+        // 公共依赖模块
+        PublicDependencyModuleNames.AddRange(new string[]
+        {
+            // 如有需要添加
+        });
+
+        // 包含路径
+        PublicIncludePaths.AddRange(new string[]
+        {
+            // ModuleIncludePath
+        });
+
+        // 私有包含路径
+        PrivateIncludePaths.AddRange(new string[]
+        {
+            // PrivateIncludePath
+        });
+    }
+}
