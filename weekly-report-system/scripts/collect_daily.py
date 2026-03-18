@@ -63,8 +63,15 @@ def main():
     config = ConfigManager(str(data_dir / "config"))
     config.initialize_default_config()
 
+    # 读取输出目录配置
+    output_dir = config.get("output_dir")
+    if output_dir:
+        output_dir = Path(output_dir).expanduser()
+    else:
+        output_dir = data_dir
+
     git_helper = GitHelper(str(project_root))
-    collector = DailyCollector(str(data_dir), git_helper)
+    collector = DailyCollector(str(output_dir), git_helper)
 
     # 收集日报
     result = collector.collect_from_markdown(markdown_text, args.date)

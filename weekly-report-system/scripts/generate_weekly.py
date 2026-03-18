@@ -67,8 +67,15 @@ def main():
     config = ConfigManager(str(config_dir))
     config.initialize_default_config()
 
+    # 读取输出目录配置
+    output_dir = config.get("output_dir")
+    if output_dir:
+        output_dir = Path(output_dir).expanduser()
+    else:
+        output_dir = data_dir
+
     git_helper = GitHelper(str(project_root))
-    collector = DailyCollector(str(data_dir), git_helper)
+    collector = DailyCollector(str(output_dir), git_helper)
     llm_service = LLMService() if not args.no_llm else None
     email_sender = EmailSender()
     weekly_gen = WeeklyGenerator(collector, llm_service, git_helper)

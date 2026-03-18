@@ -148,7 +148,7 @@ DJZ:
 
 文件命名: `soc_daily_YYYYMMDD.md`
 
-保存位置: `~/Documents/tools/awesome_skills/weekly-report-system/data/daily/`
+保存位置: `~/Documents/Report/daily/`
 
 ### 5. Git提交
 
@@ -163,7 +163,7 @@ DJZ:
 ```
 ✅ 日报收集成功
 
-📄 文件: data/daily/soc_daily_20260307.md
+📄 文件: ~/Documents/Report/daily/soc_daily_20260307.md
 👥 成员数: 10
 📊 任务统计:
   - HLQ: 3项今日, 1项明日
@@ -288,7 +288,7 @@ DJZ:
 ```
 ✅ 日报收集成功
 
-📄 文件: data/daily/soc_daily_20260307.md
+📄 文件: ~/Documents/Report/daily/soc_daily_20260307.md
 👥 成员数: 2
 📊 任务统计:
   - HLQ: 2项今日, 1项明日
@@ -304,4 +304,6 @@ DJZ:
 - **创建时间**: 2026-03-07
 - **版本**: 1.0.0
 - **作者**: Claw
+- **项目**: 寨报自动化系统
+ **作者**: Claw
 - **项目**: 寨报自动化系统

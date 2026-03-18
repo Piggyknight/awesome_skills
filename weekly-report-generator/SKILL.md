@@ -159,7 +159,7 @@ Git提交
 
 ### 1. 读取日报
 
-从 `data/daily/` 目录读取一周内的所有日报:
+从 `~/Documents/Report/daily/` 目录读取一周内的所有日报:
 - 周一到周日（7天）
 - 自动识别日期范围
 
@@ -331,9 +331,9 @@ Git提交
 
 **周报系统**: `~/Documents/tools/awesome_skills/weekly-report-system`
 
-**日报存储**: `data/daily/`
+**日报存储**: `~/Documents/Report/daily/`
 
-**周报存储**: `data/weekly/`
+**周报存储**: `~/Documents/Report/weekly/`
 
 **使用文档**: `README.md`
 
@@ -443,3 +443,4 @@ python scripts/setup_cron.py --status
 - **作者**: Claw
 - **项目**: 寨报自动化系统
 - **依赖**: daily-report-collector技能
+llector技能
